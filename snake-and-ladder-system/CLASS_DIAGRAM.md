@@ -40,9 +40,13 @@ classDiagram
         -Map~Integer, Integer~ snakeMap
         -Map~Integer, Integer~ ladderMap
         +Board(int n)
+        +generateRandom(int count, String difficultyLevel) void
+        -wouldCreateCycle(int from, int to) boolean
         +addSnake(Snake snake) void
         +addLadder(Ladder ladder) void
         +getSize() int
+        +getSnakes() List~Snake~
+        +getLadders() List~Ladder~
         +getNewPosition(int position) int
     }
 
@@ -50,6 +54,7 @@ classDiagram
         -Board board
         -Dice dice
         -Queue~Player~ players
+        -List~Player~ winners
         +Game(Board board)
         +addPlayer(Player player) void
         +start() void

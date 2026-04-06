@@ -1,31 +1,53 @@
 package com.snakeandladder;
 
 import com.snakeandladder.game.Game;
-import com.snakeandladder.model.*;
+import com.snakeandladder.model.Board;
+import com.snakeandladder.model.Ladder;
+import com.snakeandladder.model.Player;
+import com.snakeandladder.model.Snake;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Board board = new Board(10);
+        Scanner scanner = new Scanner(System.in);
 
-        board.addSnake(new Snake(99, 10));
-        board.addSnake(new Snake(70, 30));
-        board.addSnake(new Snake(52, 29));
-        board.addSnake(new Snake(45, 7));
+        System.out.print("Enter board dimension (n for n x n board): ");
+        int n = scanner.nextInt();
 
-        board.addLadder(new Ladder(3, 22));
-        board.addLadder(new Ladder(8, 34));
-        board.addLadder(new Ladder(28, 76));
-        board.addLadder(new Ladder(58, 92));
+        System.out.print("Enter number of players: ");
+        int x = scanner.nextInt();
 
-        Player p1 = new Player(1, "Alice");
-        Player p2 = new Player(2, "Bob");
-        Player p3 = new Player(3, "Charlie");
+        System.out.print("Enter difficulty level (easy/hard): ");
+        String difficultyLevel = scanner.next().toLowerCase();
+
+        Board board = new Board(n);
+        board.generateRandom(n, difficultyLevel);
+
+        System.out.println("\nBoard size: " + n + " x " + n + " (" + (n * n) + " cells)");
+        System.out.println("Difficulty: " + difficultyLevel);
+
+        System.out.println("\nSnakes:");
+        for (Snake snake : board.getSnakes()) {
+            System.out.println("  " + snake.getHead() + " -> " + snake.getTail());
+        }
+
+        System.out.println("Ladders:");
+        for (Ladder ladder : board.getLadders()) {
+            System.out.println("  " + ladder.getStart() + " -> " + ladder.getEnd());
+        }
+        System.out.println();
 
         Game game = new Game(board);
-        game.addPlayer(p1);
-        game.addPlayer(p2);
-        game.addPlayer(p3);
+        scanner.nextLine();
+        for (int i = 1; i <= x; i++) {
+            System.out.print("Enter name for Player " + i + ": ");
+            String name = scanner.nextLine();
+            game.addPlayer(new Player(i, name));
+        }
+        System.out.println();
 
         game.start();
+        scanner.close();
     }
 }
